@@ -44,4 +44,24 @@ tw['x_1mrad'] = tw_1mrad.x
 tw['x_1percent'] = tw_1percent.x
 tw.plot('x_1mm x_1mrad x_1percent')
 
+# Add marker for focus point
+s_focus = 500.
+
+line.discard_tracker()
+line.insert_element(element=xt.Marker(), name='focus', at_s=s_focus)
+
+opt = line.match(
+    solve=False,
+    betx=10, bety=10, alfx=0, alfy=0,
+    vary=xt.VaryList(['kq10', 'kq11', 'kq12', 'kq13', 'kq14', 'kq15', 'kq16']),
+    targets=[
+        xt.TargetSet(at='focus', betx=xt.LessThan(0.5), bety=xt.LessThan(0.5),
+                                 alfx=0, alfy=0, dx=0, dy=0),
+        xt.TargetSet(at='xced.x0410440', betx=xt.LessThan(750), bety=xt.LessThan(750),
+                                         alfx=0, alfy=0),
+        xt.TargetSet(at='xcsv.x0410384', betx=xt.LessThan(40), bety=xt.LessThan(40),
+                                         alfx=0),
+    ]
+)
+
 
