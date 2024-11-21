@@ -103,4 +103,6 @@ pp.lattice.set_ylim(-5, 1.2)
 ax.set_ylim(-100, 200)
 plt.axvline(x=tw['s', 'ff_5'], color='k', linestyle='--')
 
+rmat = tw.get_R_matrix_table()
+
 plt.show()
