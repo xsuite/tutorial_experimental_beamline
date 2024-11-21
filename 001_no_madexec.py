@@ -85,4 +85,22 @@ bsplt.lattice.set_ylim(-5, 1.2)
 ax.set_ylim(0, 15)
 plt.axvline(x=tw['s', 'ff_5'], color='k', linestyle='--')
 
+# Trajectories with different initial conditions
+tw_1mm = line.twiss(betx=10, bety=10, alfx=0, alfy=0, x=1e-3)
+tw_1mrad = line.twiss(betx=10, bety=10, alfx=0, alfy=0, px=1e-3)
+tw_1percent = line.twiss(betx=10, bety=10, alfx=0, alfy=0, delta=0.01)
+
+plt.figure(11)
+ax = plt.gca()
+pp = tw.plot(lattice_only=True, ax=ax)
+ax = pp.left
+ax.plot(tw_1mm.s, 1e3*tw_1mm.x, label=r'$x_0=1$ mm')
+ax.plot(tw_1mrad.s, 1e3*tw_1mrad.x, label=r'$p_{x0}=1$ mrad')
+ax.plot(tw_1percent.s, 1e3*tw_1percent.x, label=r'$\delta_0=1\%$')
+ax.legend(loc='lower left')
+ax.set_ylabel(r'$x$ [m]')
+pp.lattice.set_ylim(-5, 1.2)
+ax.set_ylim(-100, 200)
+plt.axvline(x=tw['s', 'ff_5'], color='k', linestyle='--')
+
 plt.show()
