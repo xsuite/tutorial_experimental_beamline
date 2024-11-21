@@ -10,7 +10,7 @@ plt.close('all')
 env = xt.load_madx_lattice('h6fm04.seq')
 env.vars.load_madx('h6-fm.str')
 line = env['h6']
-line.replace_all_repeated_elements()
+
 
 # Associate a reference particle
 line.particle_ref = xt.Particles(p0c=120e9, mass0=xt.PROTON_MASS_EV)
@@ -43,6 +43,7 @@ twplt.ylim(left_lo=0, left_hi=2e3, right_lo=-10, right_hi=3)
 # Add markers for focus points
 s_focus = np.linspace(490., 540., 9)
 line.discard_tracker()
+line.replace_all_repeated_elements()
 for ii, ss in enumerate(s_focus):
     line.insert_element(element=xt.Marker(), name=f'ff_{ii+1}', at_s=ss)
 
