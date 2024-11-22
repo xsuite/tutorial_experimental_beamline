@@ -46,7 +46,10 @@ check_at = [
 tw_check = tw.rows[check_at]
 tw_mad_check = tw_mad.rows[[nn+':1' for nn in check_at]]
 
-# xo.assert_allclose(tw_check.betx, tw_mad_check.betx, rtol=1e-5, atol=0)
+xo.assert_allclose(tw_check.betx, tw_mad_check.betx, rtol=2e-5, atol=0)
+xo.assert_allclose(tw_check.bety, tw_mad_check.bety, rtol=2e-5, atol=0)
+xo.assert_allclose(tw_check.dx, tw_mad_check.dx, rtol=2e-5, atol=1e-4)
+xo.assert_allclose(tw_check.dy, tw_mad_check.dy, rtol=2e-5, atol=1e-4)
 
 import matplotlib.pyplot as plt
 plt.close('all')
