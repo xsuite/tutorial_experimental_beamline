@@ -18,7 +18,7 @@ use, sequence=H6;
 
 set,  format="15.9f";
 
-twiss, chrom=true, ripken=true, rmatrix=true, betx=10, alfx=0, bety=10, alfy=0;
+twiss, chrom=true, rmatrix=true, betx=10, alfx=0, bety=10, alfy=0;
 ''')
 tw_mad = xt.Table(mad.table.twiss)
 
@@ -51,9 +51,40 @@ xo.assert_allclose(tw_check.bety, tw_mad_check.bety, rtol=2e-5, atol=0)
 xo.assert_allclose(tw_check.dx, tw_mad_check.dx, rtol=2e-5, atol=1e-4)
 xo.assert_allclose(tw_check.dy, tw_mad_check.dy, rtol=2e-5, atol=1e-4)
 
+trm = tw.get_R_matrix_table()
+trm_check = trm.rows[check_at]
+
+for ii in range(6):
+    for jj in range(6):
+        rterm_mad = tw_mad_check[f're{ii+1}{jj+1}']
+        rterm_xs = trm_check[f'r{ii+1}{jj+1}']
+        atol=1e-4*np.max(np.abs(rterm_mad))
+        if atol<1e-14:
+            atol=1e-14
+        xo.assert_allclose(rterm_xs, rterm_mad, rtol=2e-5, atol=atol)
+
 import matplotlib.pyplot as plt
 plt.close('all')
-
+plt.figure(1)
 plt.plot(tw_mad.s, tw_mad.betx, label='mad')
 plt.plot(tw.s, tw.betx, label='env')
+
+plt.figure(2)
+plt.plot(tw_mad.s, tw_mad.re11, label='mad')
+plt.plot(trm.s, trm.r11, label='env')
+
+plt.figure(3)
+plt.plot(tw_mad.s, tw_mad.re12, label='mad')
+plt.plot(trm.s, trm.r12, label='env')
+
+plt.figure(4)
+plt.plot(tw_mad.s, tw_mad.re21, label='mad')
+plt.plot(trm.s, trm.r21, label='env')
+
+plt.figure(5)
+plt.plot(tw_mad.s, tw_mad.re22, label='mad')
+plt.plot(trm.s, trm.r22, label='env')
+
+
+
 plt.show()
